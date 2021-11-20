@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using WebVendas.Models;
+using WebVendas.Models.ViewModels;    
 
-namespace WebVendas.Controllers
-{
+namespace WebVendas.Models
+{ 
     public class HomeController : Controller
     {
         public IActionResult Index()
