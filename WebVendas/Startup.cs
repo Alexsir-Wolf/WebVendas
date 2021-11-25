@@ -39,14 +39,18 @@ namespace WebVendas
             services.AddDbContext<WebVendasContext>(options =>         //NOME DO SUBCLASS DBCONTEXT
                     options.UseMySql(Configuration.GetConnectionString("WebVendasContext"), builder =>
                     builder.MigrationsAssembly("WebVendas"))); //NOME DO PROJETO
+
+            services.AddScoped<SeedingService>();
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, SeedingService seedingService)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                seedingService.Seed();
             }
             else
             {
