@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WebVendas.Data;
+using WebVendas.Services;
 
 namespace WebVendas
 {
@@ -41,6 +42,7 @@ namespace WebVendas
                     builder.MigrationsAssembly("WebVendas"))); //NOME DO PROJETO
 
             services.AddScoped<SeedingService>();
+            services.AddScoped<ServicoDeVendas>();
            
         }
 
