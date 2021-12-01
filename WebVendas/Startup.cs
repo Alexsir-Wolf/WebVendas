@@ -43,7 +43,7 @@ namespace WebVendas
 
             services.AddScoped<SeedingService>();
             services.AddScoped<ServicoDeVendas>();
-           
+            services.AddScoped<ServicoDeDepartamento>();           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

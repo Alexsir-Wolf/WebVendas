@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebVendas.Models;
+using WebVendas.Models.ViewModels;
 using WebVendas.Services;
 
 namespace WebVendas.Controllers
@@ -11,10 +12,13 @@ namespace WebVendas.Controllers
     public class VendedoresController : Controller
     {
         private readonly ServicoDeVendas _servicoDeVendas;
+        private readonly ServicoDeDepartamento _servicoDeDepartamento;
+        
 
-        public VendedoresController(ServicoDeVendas servicoDeVendas)
+        public VendedoresController(ServicoDeVendas servicoDeVendas, ServicoDeDepartamento servicoDeDepartamento)
         {
             _servicoDeVendas = servicoDeVendas;
+            _servicoDeDepartamento = servicoDeDepartamento;
         }
 
         //lista todos os vendedores
@@ -27,7 +31,9 @@ namespace WebVendas.Controllers
         //cria novo vendedor
         public IActionResult Create()
         {
-            return View();
+            var departamentos = _servicoDeDepartamento.FindAll();
+            var viewlModel = new VendedorFormViewModel { Departamentos = departamentos };
+            return View(viewlModel);
         }
 
         //Add novo vendedor no banco de dados
