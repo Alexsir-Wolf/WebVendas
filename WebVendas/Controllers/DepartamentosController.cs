@@ -25,7 +25,7 @@ namespace WebVendas.Controllers
             return View(await _context.Departamento.ToListAsync());
         }
 
-        // GET: Departamentos/Details/5
+        // GET: Departamentos/Detalhes
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,15 +43,13 @@ namespace WebVendas.Controllers
             return View(departamento);
         }
 
-        // GET: Departamentos/Create
+        //Departamentos/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Departamentos/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //Departamentos/Criar      
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nome")] Departamento departamento)
@@ -65,7 +63,7 @@ namespace WebVendas.Controllers
             return View(departamento);
         }
 
-        // GET: Departamentos/Edit/5
+        //Departamentos/Editar
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,9 +79,7 @@ namespace WebVendas.Controllers
             return View(departamento);
         }
 
-        // POST: Departamentos/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //Departamentos/Editar
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nome")] Departamento departamento)
@@ -116,7 +112,7 @@ namespace WebVendas.Controllers
             return View(departamento);
         }
 
-        // GET: Departamentos/Delete/5
+        //Departamentos/Deletar
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,7 +130,7 @@ namespace WebVendas.Controllers
             return View(departamento);
         }
 
-        // POST: Departamentos/Delete/5
+        //Departamentos/Deletar
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

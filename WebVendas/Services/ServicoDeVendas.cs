@@ -27,6 +27,21 @@ namespace WebVendas.Services
             _context.SaveChanges();
         }
 
+        //busca vendedor pelo ID
+        public Vendedor FindByID(int id)
+        {
+            return _context.Vendedor.FirstOrDefault(obj => obj.Id == id);
+        }
+
+        //remove vendedor
+        public void Remove(int id)
+        {
+            var obj = _context.Vendedor.Find(id);
+            _context.Vendedor.Remove(obj);
+            _context.SaveChanges();
+        }
+
+
 
  
 

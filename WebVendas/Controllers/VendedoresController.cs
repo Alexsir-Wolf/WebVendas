@@ -46,8 +46,28 @@ namespace WebVendas.Controllers
 
         }
 
+        public IActionResult Delete(int? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+            var obj = _servicoDeVendas.FindByID(id.Value);
+            if(obj == null)
+            {
+                return NotFound();
+            }
+            return View(obj);
+        }
 
-
+        //Vendedor/Deletar
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            _servicoDeVendas.Remove(id);
+            return RedirectToAction(nameof(Index));
+        }
 
     }
 }
