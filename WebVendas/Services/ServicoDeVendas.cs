@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using WebVendas.Data;
 using WebVendas.Models;
@@ -30,7 +31,7 @@ namespace WebVendas.Services
         //busca vendedor pelo ID
         public Vendedor FindByID(int id)
         {
-            return _context.Vendedor.FirstOrDefault(obj => obj.Id == id);
+            return _context.Vendedor.Include(obj => obj.Departamento).FirstOrDefault(obj => obj.Id == id);
         }
 
         //remove vendedor
