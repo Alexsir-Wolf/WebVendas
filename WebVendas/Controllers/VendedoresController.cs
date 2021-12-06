@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using WebVendas.Models;
 using WebVendas.Models.ViewModels;
 using WebVendas.Services;
+using WebVendas.Services.Exceptions;
 
 namespace WebVendas.Controllers
 {
@@ -13,7 +14,7 @@ namespace WebVendas.Controllers
     {
         private readonly ServicoDeVendas _servicoDeVendas;
         private readonly ServicoDeDepartamento _servicoDeDepartamento;
-        
+
 
         public VendedoresController(ServicoDeVendas servicoDeVendas, ServicoDeDepartamento servicoDeDepartamento)
         {
@@ -38,7 +39,7 @@ namespace WebVendas.Controllers
 
         //Add novo vendedor no banco de dados
         [HttpPost]      //indica que é um metodo POST
-        [ValidateAntiForgeryToken] 
+        [ValidateAntiForgeryToken]
         public IActionResult Create(Vendedor vendedor)
         {
             _servicoDeVendas.Insert(vendedor);
@@ -48,12 +49,12 @@ namespace WebVendas.Controllers
 
         public IActionResult Delete(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return NotFound();
             }
             var obj = _servicoDeVendas.FindByID(id.Value);
-            if(obj == null)
+            if (obj == null)
             {
                 return NotFound();
             }
@@ -81,6 +82,48 @@ namespace WebVendas.Controllers
                 return NotFound();
             }
             return View(obj);
+        }
+
+        public IActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var obj = _servicoDeVendas.FindByID(id.Value);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            List<Departamento> departamentos = _servicoDeDepartamento.FindAll();
+            VendedorFormViewModel viewModel = new VendedorFormViewModel
+            { Vendedor = obj, Departamentos = departamentos };
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, Vendedor vendedor)
+        {
+            if(id != vendedor.Id)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                _servicoDeVendas.Update(vendedor);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+            catch (DbConcurrencyException)
+            {
+                return BadRequest();
+            }
         }
 
     }
