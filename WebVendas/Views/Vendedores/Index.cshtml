@@ -29,9 +29,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.SalarioBase)
                 <!--SalarioBase do vendedor-->
-            </th>
+            </th>           
             <th>
+               <!--Opçoes-->
             </th>
+          
         </tr>
     </thead>
     <tbody>
@@ -49,7 +51,7 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.SalarioBase)
-                </td>
+                </td>             
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Editar</a>
                     <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a>

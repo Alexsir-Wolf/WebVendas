@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -24,12 +26,12 @@ namespace WebVendas
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        // metodo para adicionar serviços ao contêiner
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                //consentimento do usuário para cookies não essenciais é necessário para uma determinada solicitação.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
@@ -46,9 +48,19 @@ namespace WebVendas
             services.AddScoped<ServicoDeDepartamento>();           
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // Este método é chamado pelo tempo de execução. Use este método para configurar o pipeline de solicitação HTTP.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, SeedingService seedingService)
-        {
+        {   //define localização
+            var ptBR = new CultureInfo("pt-br");
+            var localizationOptions = new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture(ptBR),
+                SupportedCultures = new List<CultureInfo> { ptBR },
+                SupportedUICultures = new List<CultureInfo> { ptBR }
+            };
+            app.UseRequestLocalization(localizationOptions);
+
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
