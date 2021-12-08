@@ -25,8 +25,7 @@ namespace WebVendas.Models
 
         [Required(ErrorMessage = "{0} campo obrigatório")]
         [Display(Name = "Data de Nascimento")] //customiza display        
-        [DataType(DataType.Date)] //customiza data
-        //[Range(typeof(DateTime), "01/01/1966", "31/12/2003", ErrorMessage = "{0} deve estar entre 1/1/1966 e 1/1/2003")]
+        [DataType(DataType.Date)] //customiza data       
         [DisplayFormat(DataFormatString = "{0: dd/MM/yyyy}")]        
         public DateTime DataNascimento { get; set; }
 

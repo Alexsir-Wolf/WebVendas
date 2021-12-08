@@ -46,6 +46,7 @@ namespace WebVendas
             services.AddScoped<SeedingService>();
             services.AddScoped<ServicoDeVendas>();
             services.AddScoped<ServicoDeDepartamento>();           
+            services.AddScoped<ServicoDeVendasService>();           
         }
 
         // Este método é chamado pelo tempo de execução. Use este método para configurar o pipeline de solicitação HTTP.
