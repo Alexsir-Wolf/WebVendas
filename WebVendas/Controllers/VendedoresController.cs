@@ -43,6 +43,12 @@ namespace WebVendas.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Vendedor vendedor)
         {
+            if (!ModelState.IsValid)
+            {
+                var departaments = _servicoDeDepartamento.FindAll();
+                var ViewModel = new VendedorFormViewModel { Vendedor = vendedor, Departamentos = departaments };
+                return View(ViewModel);
+            }
             _servicoDeVendas.Insert(vendedor);
             return RedirectToAction(nameof(Index));
 
@@ -85,8 +91,15 @@ namespace WebVendas.Controllers
             return View(obj);
         }
 
-        public IActionResult Edit(int? id)
+        public IActionResult Edit(int? id, Vendedor vendedor)
         {
+            if (!ModelState.IsValid)
+            {
+                var departaments = _servicoDeDepartamento.FindAll();
+                var ViewModel = new VendedorFormViewModel { Vendedor = vendedor, Departamentos = departaments };
+                return View(ViewModel);
+            }
+
             if (id == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "ID não foi fornecido." });
