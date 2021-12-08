@@ -24,16 +24,16 @@ namespace WebVendas.Controllers
         }
 
         //lista todos os vendedores
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var list = _servicoDeVendas.FindAll();
+            var list = await _servicoDeVendas.FindAllAsync();
             return View(list);
         }
 
         //cria novo vendedor
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var departamentos = _servicoDeDepartamento.FindAll();
+            var departamentos = await _servicoDeDepartamento.FindAllAsync();
             var viewlModel = new VendedorFormViewModel { Departamentos = departamentos };
             return View(viewlModel);
         }
@@ -41,26 +41,26 @@ namespace WebVendas.Controllers
         //Add novo vendedor no banco de dados
         [HttpPost]      //indica que é um metodo POST
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Vendedor vendedor)
+        public async Task<IActionResult> Create(Vendedor vendedor)
         {
             if (!ModelState.IsValid)
             {
-                var departaments = _servicoDeDepartamento.FindAll();
+                var departaments = await _servicoDeDepartamento.FindAllAsync();
                 var ViewModel = new VendedorFormViewModel { Vendedor = vendedor, Departamentos = departaments };
                 return View(ViewModel);
             }
-            _servicoDeVendas.Insert(vendedor);
+            await _servicoDeVendas.InsertAsync(vendedor);
             return RedirectToAction(nameof(Index));
 
         }
 
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "ID não foi fornecido." });
             }
-            var obj = _servicoDeVendas.FindByID(id.Value);
+            var obj = await _servicoDeVendas.FindByIDAsync(id.Value);
             if (obj == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "ID não encontrado." });
@@ -71,19 +71,19 @@ namespace WebVendas.Controllers
         //Vendedor/Deletar
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _servicoDeVendas.Remove(id);
+            await _servicoDeVendas.RemoveAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "ID não foi fornecido." });
             }
-            var obj = _servicoDeVendas.FindByID(id.Value);
+            var obj = await _servicoDeVendas.FindByIDAsync(id.Value);
             if (obj == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "ID não encontrado." });
@@ -91,11 +91,11 @@ namespace WebVendas.Controllers
             return View(obj);
         }
 
-        public IActionResult Edit(int? id, Vendedor vendedor)
+        public async Task<IActionResult> Edit(int? id, Vendedor vendedor)
         {
             if (!ModelState.IsValid)
             {
-                var departaments = _servicoDeDepartamento.FindAll();
+                var departaments = await _servicoDeDepartamento.FindAllAsync();
                 var ViewModel = new VendedorFormViewModel { Vendedor = vendedor, Departamentos = departaments };
                 return View(ViewModel);
             }
@@ -105,13 +105,13 @@ namespace WebVendas.Controllers
                 return RedirectToAction(nameof(Error), new { message = "ID não foi fornecido." });
             }
 
-            var obj = _servicoDeVendas.FindByID(id.Value);
+            var obj = await _servicoDeVendas.FindByIDAsync(id.Value);
             if (obj == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "ID não encontrado." });
             }
 
-            List<Departamento> departamentos = _servicoDeDepartamento.FindAll();
+            List<Departamento> departamentos = await _servicoDeDepartamento.FindAllAsync();
             VendedorFormViewModel viewModel = new VendedorFormViewModel
             { Vendedor = obj, Departamentos = departamentos };
             return View(viewModel);
@@ -119,7 +119,7 @@ namespace WebVendas.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, Vendedor vendedor)
+        public async Task<IActionResult> Edit(int id, Vendedor vendedor)
         {
             if (id != vendedor.Id)
             {
@@ -127,7 +127,7 @@ namespace WebVendas.Controllers
             }
             try
             {
-                _servicoDeVendas.Update(vendedor);
+                await _servicoDeVendas.UpdateAsync(vendedor);
                 return RedirectToAction(nameof(Index));
             }
             catch (NotFoundException except)

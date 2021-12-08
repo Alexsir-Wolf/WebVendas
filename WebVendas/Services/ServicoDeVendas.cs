@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using WebVendas.Data;
 using WebVendas.Models;
 using WebVendas.Services.Exceptions;
@@ -17,42 +18,43 @@ namespace WebVendas.Services
         }
 
         //lista todos os vendedores
-        public List<Vendedor> FindAll()
+        public async Task<List<Vendedor>> FindAllAsync()
         {
-            return _context.Vendedor.ToList();
+            return await _context.Vendedor.ToListAsync();
         }
 
         //ADD novo vendedor no banco de dados
-        public void Insert(Vendedor obj)
-        {            
+        public async Task InsertAsync(Vendedor obj)
+        {
             _context.Add(obj);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         //busca vendedor pelo ID
-        public Vendedor FindByID(int id)
+        public async Task<Vendedor> FindByIDAsync(int id)
         {
-            return _context.Vendedor.Include(obj => obj.Departamento).FirstOrDefault(obj => obj.Id == id);
+            return await _context.Vendedor.Include(obj => obj.Departamento).FirstOrDefaultAsync(obj => obj.Id == id);
         }
 
         //remove vendedor
-        public void Remove(int id)
+        public async Task RemoveAsync(int id)
         {
-            var obj = _context.Vendedor.Find(id);
+            var obj = await _context.Vendedor.FindAsync(id);
             _context.Vendedor.Remove(obj);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(Vendedor obj)
+        public async Task UpdateAsync(Vendedor obj)
         {
-            if(!_context.Vendedor.Any(x => x.Id == obj.Id))
+            bool hasAny = await _context.Vendedor.AnyAsync(x => x.Id == obj.Id);
+            if (!hasAny)
             {
                 throw new NotFoundException("Id não encontrado");
             }
             try
             {
                 _context.Update(obj);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException e)
             {
@@ -60,7 +62,7 @@ namespace WebVendas.Services
             }
         }
 
- 
+
 
 
     }

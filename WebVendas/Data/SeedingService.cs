@@ -26,10 +26,10 @@ namespace WebVendas.Data
                 //banco de dados foi populado
             }
 
-            Departamento d1 = new Departamento(1, "Computers");
-            Departamento d2 = new Departamento(2, "Electronics");
+            Departamento d1 = new Departamento(1, "Computadores");
+            Departamento d2 = new Departamento(2, "Electronicos");
             Departamento d3 = new Departamento(3, "Fashion");
-            Departamento d4 = new Departamento(4, "Books");
+            Departamento d4 = new Departamento(4, "Livros");
 
             Vendedor v1 = new Vendedor(1, "Bob Brown", "bob@gmail.com", new DateTime(1998, 4, 21), 1000.0, d1);
             Vendedor v2 = new Vendedor(2, "Maria Green", "maria@gmail.com", new DateTime(1979, 12, 31), 3500.0, d2);
